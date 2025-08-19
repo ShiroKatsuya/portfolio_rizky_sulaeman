@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rizky Sulaeman — Portfolio</title>
+    <meta name="description" content="Portfolio of Rizky Sulaeman — Full Stack Software Engineer. Projects in Laravel, Django, React Native, AI/ML, and more. Based in Indramayu, West Java, Indonesia." />
+    <meta name="color-scheme" content="light dark" />
+
+    <script>
+      // Apply saved theme or system preference ASAP to avoid FOUC
+      (function() {
+        try {
+          var ls = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (ls === 'dark' || (!ls && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rizky Sulaeman — Portfolio" />
+    <meta property="og:description" content="Full Stack Software Engineer. Selected works: E‑Learning, Smart Link System, Multi‑Agent AI, CV Screening, and more." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="assets/profile.svg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rizky Sulaeman — Portfolio" />
+    <meta name="twitter:description" content="Full Stack Software Engineer. Selected works and CV." />
+    <meta name="twitter:image" content="assets/profile.svg" />
+
+    <link rel="canonical" href="/" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind via CDN (latest) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#eef7ff', 100: '#d9ecff', 200: '#b9dbff', 300: '#89c2ff', 400: '#57a3ff', 500: '#2f83ff', 600: '#1365e6', 700: '#0f4db4', 800: '#0d3f91', 900: '#0c3778'
+              },
+              accent: {
+                50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji']
+            },
+            boxShadow: {
+              soft: '0 10px 30px rgba(0,0,0,0.08)'
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Alpine.js (latest) -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Intersect plugin for entrance animations -->
+    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- JSON-LD: Person -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rizky Sulaeman",
+        "email": "mailto:riskisuleman76@gmail.com",
+        "jobTitle": "Full Stack Software Engineer",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Indramayu",
+          "addressRegion": "West Java",
+          "addressCountry": "ID"
+        },
+        "knowsAbout": ["Laravel", "Django", "React Native", "Python", "JavaScript", "AI", "NLP"],
+        "sameAs": []
+      }
+    </script>
+
+    <style>
+      /* Prevent Alpine FOUC */
+      [x-cloak] { display: none !important; }
+      /* Minimal print helpers */
+      @media print { .no-print { display: none !important; } }
+    </style>
+  </head>
+  <body class="bg-white text-slate-800 antialiased dark:bg-slate-900 dark:text-slate-100">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white text-primary-700 px-3 py-2 rounded shadow-soft">Skip to content</a>
+
+    <!-- App wrapper with Alpine state -->
+    <div x-data="portfolioApp()" @keydown.window.escape="activeProject && closeProject()" class="min-h-screen flex flex-col">
+      <!-- Sticky Navbar -->
+      <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 shadow-sm dark:supports-[backdrop-filter]:bg-slate-900/70 dark:bg-slate-900/90">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Primary">
+          <div class="flex h-16 items-center justify-between">
+            <a href="#home" class="flex items-center gap-3 group" aria-label="Go to home">
+              <img src="assets/profile.svg" alt="Rizky Sulaeman avatar" class="h-9 w-9 rounded-full ring-2 ring-primary-200" loading="eager" />
+              <span class="font-semibold tracking-tight group-hover:text-primary-700 transition-colors">Rizky Sulaeman</span>
+            </a>
+            <div class="hidden md:flex items-center gap-6">
+              <a href="#home" class="px-3 py-2 text-sm font-medium hover:text-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded">Home</a>
+              <a href="#about" class="px-3 py-2 text-sm font-medium hover:text-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded">About</a>
+              <a href="#projects" class="px-3 py-2 text-sm font-medium hover:text-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded">Projects</a>
+              <a href="#resume" class="px-3 py-2 text-sm font-medium hover:text-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded">Resume</a>
+              <a href="#contact" class="px-3 py-2 text-sm font-medium hover:text-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded">Contact</a>
+              <button @click="toggleTheme()" :aria-label="dark ? 'Switch to Day Mode' : 'Switch to Night Mode'" class="ml-2 inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 dark:text-slate-200 dark:hover:bg-slate-800">
+                <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm9-4h-2a1 1 0 1 1 0-2h2a1 1 0 1 1 0 2zM5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm12.95 6.536 1.414 1.414a1 1 0 0 1-1.414 1.414l-1.414-1.414a1 1 0 1 1 1.414-1.414zM6.05 5.464 4.636 4.05A1 1 0 1 1 6.05 2.636L7.464 4.05A1 1 0 1 1 6.05 5.464zM17.95 4.05 19.364 2.636A1 1 0 0 1 20.778 4.05L19.364 5.464A1 1 0 1 1 17.95 4.05zM4.636 19.364 6.05 17.95a1 1 0 0 1 1.414 1.414L6.05 20.778A1 1 0 1 1 4.636 19.364z"/></svg>
+                <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              </button>
+            </div>
+            <div class="md:hidden flex items-center gap-2">
+              <button @click="toggleTheme()" :aria-label="dark ? 'Switch to Day Mode' : 'Switch to Night Mode'" class="inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 dark:text-slate-200 dark:hover:bg-slate-800">
+                <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm9-4h-2a1 1 0 1 1 0-2h2a1 1 0 1 1 0 2zM5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm12.95 6.536 1.414 1.414a1 1 0 0 1-1.414 1.414l-1.414-1.414a1 1 0 1 1 1.414-1.414zM6.05 5.464 4.636 4.05A1 1 0 1 1 6.05 2.636L7.464 4.05A1 1 0 1 1 6.05 5.464zM17.95 4.05 19.364 2.636A1 1 0 0 1 20.778 4.05L19.364 5.464A1 1 0 1 1 17.95 4.05zM4.636 19.364 6.05 17.95a1 1 0 0 1 1.414 1.414L6.05 20.778A1 1 0 1 1 4.636 19.364z"/></svg>
+                <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              </button>
+              <button @click="isMenuOpen = !isMenuOpen" class="inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 dark:text-slate-200 dark:hover:bg-slate-800" aria-controls="mobile-menu" :aria-expanded="isMenuOpen.toString()" aria-label="Toggle menu">
+                <svg x-show="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg x-show="isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div x-cloak x-show="isMenuOpen" @click.outside="isMenuOpen=false" id="mobile-menu" class="md:hidden pb-4" x-transition>
+            <div class="flex flex-col gap-1">
+              <a @click="isMenuOpen=false" href="#home" class="px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800">Home</a>
+              <a @click="isMenuOpen=false" href="#about" class="px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800">About</a>
+              <a @click="isMenuOpen=false" href="#projects" class="px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800">Projects</a>
+              <a @click="isMenuOpen=false" href="#resume" class="px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800">Resume</a>
+              <a @click="isMenuOpen=false" href="#contact" class="px-3 py-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800">Contact</a>
+              <button @click="toggleTheme(); isMenuOpen=false" class="mt-1 px-3 py-2 text-left rounded hover:bg-slate-50 dark:hover:bg-slate-800">
+                <span x-text="dark ? 'Switch to Day Mode' : 'Switch to Night Mode'"></span>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <main id="main" class="grow">
+        <!-- Hero / Home -->
+        <section id="home" class="relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-b from-primary-50 via-white to-white pointer-events-none dark:from-slate-900 dark:via-slate-900 dark:to-slate-900"></div>
+          <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+              <div x-intersect.opacity.scale.50 class="space-y-6">
+                <div class="inline-flex items-center gap-2">
+                  <p class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-primary-700 bg-primary-50 ring-1 ring-primary-100 px-3 py-1 rounded-full dark:bg-primary-900/20 dark:text-primary-300 dark:ring-primary-900/30">
+                    <span class="h-2 w-2 rounded-full bg-primary-500"></span> Available for opportunities
+                  </p>
+                  <div x-data="{open:false}" class="relative" @mouseenter="open=true" @mouseleave="open=false">
+                    <button aria-describedby="tip-availability" class="text-slate-500 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-500 rounded dark:text-slate-300 dark:hover:text-white" @focus="open=true" @blur="open=false">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-8-4a1.25 1.25 0 100 2.5A1.25 1.25 0 0010 6zm-1.5 4a.75.75 0 000 1.5h.75V14a.75.75 0 001.5 0v-3a.75.75 0 00-.75-.75H8.5z"/></svg>
+                    </button>
+                    <div x-cloak x-show="open" x-transition.opacity id="tip-availability" role="tooltip" class="absolute left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap text-xs bg-slate-900 text-white px-2 py-1 rounded shadow-soft">
+                      Open to freelance and full-time roles
+                    </div>
+                  </div>
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">Hi, I’m <span class="text-primary-700">Rizky Sulaeman</span><br class="hidden sm:block"/> Full Stack Software Engineer</h1>
+                <p class="text-base sm:text-lg text-slate-600 max-w-prose dark:text-slate-300">I build performant web and mobile software with Laravel, Django, React Native, and Python/AI. Focused on clean UX, accessibility, and scalable architecture.</p>
+                <div class="flex flex-wrap gap-3">
+                  <a href="#projects" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-3 rounded-md shadow-soft transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
+                    View Projects
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                  </a>
+                  <a href="#contact" class="inline-flex items-center gap-2 bg-white ring-1 ring-slate-200 hover:ring-slate-300 text-slate-800 px-5 py-3 rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:bg-slate-900 dark:ring-slate-700 dark:hover:ring-slate-600 dark:text-slate-100">Contact</a>
+                </div>
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 pt-4">
+                  <div class="text-center" x-data="counter(4)"><p class="text-2xl font-bold text-primary-700" x-text="value"></p><p class="text-xs text-slate-500">Years</p></div>
+                  <div class="text-center" x-data="counter(projects.length)"><p class="text-2xl font-bold text-primary-700" x-text="value"></p><p class="text-xs text-slate-500">Projects</p></div>
+                  <div class="text-center" x-data="counter(skills.languages.length)"><p class="text-2xl font-bold text-primary-700" x-text="value"></p><p class="text-xs text-slate-500">Languages</p></div>
+                </div>
+              </div>
+              <div class="relative flex justify-center" x-intersect.opacity.scale.50>
+                <div class="relative">
+                  <img src="assets/rizky.png" alt="Portrait of Rizky Sulaeman" class="h-56 w-56 sm:h-64 sm:w-64 lg:h-80 lg:w-80 rounded-2xl shadow-soft border-4 border-gray-300 dark:border-gray-700" loading="eager" />
+                  <div class="absolute -bottom-4 -right-4 bg-white rounded-xl px-4 py-3 shadow-soft border border-gray-200 dark:bg-slate-900 dark:border-gray-700">
+                    <p class="text-sm"><span class="font-semibold">Indramayu</span>, West Java</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- About / CV -->
+        <section id="about" class="py-16 sm:py-20">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-10">
+              <div class="lg:col-span-1">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">About</h2>
+                <p class="mt-3 text-slate-600 dark:text-slate-300">D4 Software Engineering graduate (GPA 3.56) from Politeknik Negeri Indramayu with hands-on experience across web, mobile, and AI projects.</p>
+                <dl class="mt-6 space-y-2 text-sm">
+                  <div class="flex items-center gap-2"><span class="font-medium w-24">Email</span><a href="mailto:riskisuleman76@gmail.com" class="text-primary-700 hover:underline">riskisuleman76@gmail.com</a></div>
+                  <div class="flex items-center gap-2"><span class="font-medium w-24">Location</span><span>Indramayu, West Java, ID</span></div>
+                  <div class="flex items-center gap-2"><span class="font-medium w-24">Phone</span><span aria-label="Phone number">+62 **** **** 203</span></div>
+                </dl>
+              </div>
+              <div class="lg:col-span-2 grid gap-10">
+                <div>
+                  <h3 class="text-xl font-semibold">Education</h3>
+                  <div class="mt-4 grid sm:grid-cols-2 gap-6">
+                    <article class="rounded-lg ring-1 ring-slate-200 p-5 dark:ring-slate-700 dark:bg-slate-900">
+                      <div class="flex items-center justify-between gap-4">
+                        <p class="font-medium">Politeknik Negeri Indramayu</p>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">2021–2025</span>
+                      </div>
+                      <p class="text-sm text-slate-600 dark:text-slate-300">D4 Rekayasa Perangkat Lunak — GPA 3.56</p>
+                      <p class="text-xs text-slate-500 mt-1 dark:text-slate-400">Indramayu, Indonesia</p>
+                    </article>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold">Experience</h3>
+                  <div class="mt-4 grid gap-6">
+                    <article class="rounded-lg ring-1 ring-slate-200 p-5 dark:ring-slate-700 dark:bg-slate-900">
+                      <div class="flex items-center justify-between gap-4">
+                        <p class="font-medium">PT Cybers Blitz Nusantara — Full Stack Software Engineer</p>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Jul 2024 – Dec 2024 • Bandung</span>
+                      </div>
+                      <ul class="mt-2 list-disc list-inside text-sm text-slate-600 space-y-1 dark:text-slate-300">
+                        <li>Built web app for income assessment calculations using Python, Django, jQuery, Bootstrap, PostgreSQL.</li>
+                        <li>Improved data processing efficiency and implementation readiness.</li>
+                        <li>Delivered Smart Link System features and received internal appreciation.</li>
+                      </ul>
+                    </article>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold">Skills</h3>
+                  <div class="mt-4 grid sm:grid-cols-2 gap-6">
+                    <div>
+                      <p class="font-medium mb-2">Coursework</p>
+                      <ul class="text-sm text-slate-600 space-y-1 dark:text-slate-300">
+                        <template x-for="item in skills.coursework" :key="item"><li x-text="item"></li></template>
+                      </ul>
+                    </div>
+                    <div>
+                      <p class="font-medium mb-2">Technical</p>
+                      <p class="text-xs text-slate-500 mb-1">Languages</p>
+                      <div class="flex flex-wrap gap-2 text-sm">
+                        <template x-for="item in skills.languages" :key="item"><span class="px-2 py-1 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700" x-text="item"></span></template>
+                      </div>
+                      <p class="text-xs text-slate-500 mt-3 mb-1">Frameworks & Tools</p>
+                      <div class="flex flex-wrap gap-2 text-sm">
+                        <template x-for="item in skills.frameworks" :key="item"><span class="px-2 py-1 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700" x-text="item"></span></template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold">Extracurricular</h3>
+                  <article class="mt-4 rounded-lg ring-1 ring-slate-200 p-5 dark:ring-slate-700 dark:bg-slate-900">
+                    <div class="flex items-center justify-between gap-4">
+                      <p class="font-medium">KOTAK PENA — Head of Multimedia Division</p>
+                      <span class="text-xs text-slate-500 dark:text-slate-400">2022–2023</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Politeknik Negeri Indramayu</p>
+                    <ul class="mt-2 list-disc list-inside text-sm text-slate-600 space-y-1 dark:text-slate-300">
+                      <li>Led image, photo, and video editing workflows.</li>
+                      <li>Ensured team availability and professional outputs.</li>
+                      <li>Coordinated cross-division graphic design needs.</li>
+                    </ul>
+                  </article>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold">Certifications</h3>
+                  <ul class="mt-4 grid sm:grid-cols-2 gap-3 text-sm text-slate-700 dark:text-slate-300">
+                    <li class="px-3 py-2 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700">Project Management Associate — Dicoding</li>
+                    <li class="px-3 py-2 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700">SOLID Programming Principle — Dicoding</li>
+                    <li class="px-3 py-2 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700">Programming Using HTML and CSS — CodePolitan</li>
+                    <li class="px-3 py-2 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700">Programming Using JavaScript — CodePolitan</li>
+                    <li class="px-3 py-2 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700">Programming Using Python — CodePolitan</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="py-16 sm:py-20 bg-slate-50 dark:bg-slate-800">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between gap-6">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Projects</h2>
+                <p class="mt-2 text-slate-600 dark:text-slate-300">Selected works across web, mobile, and AI.</p>
+              </div>
+              <div class="hidden sm:flex items-center gap-2 text-xs text-slate-600">
+                <span class="hidden sm:inline">Tip:</span>
+                <span class="px-2 py-1 bg-white ring-1 ring-slate-200 rounded dark:bg-slate-900 dark:ring-slate-700">Click a card for details</span>
+              </div>
+            </div>
+
+            <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <template x-for="(item, idx) in (showAllProjects ? projects : projects.slice(0, 3))" :key="item.id">
+                <article class="group bg-white ring-1 ring-slate-200 rounded-xl overflow-hidden hover:shadow-soft transition-shadow dark:bg-slate-900 dark:ring-slate-700">
+                  <button @click="openProject(item)" class="text-left w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-600">
+                    <div class="aspect-video overflow-hidden">
+                      <img :src="item.thumbnail" :alt="item.title + ' thumbnail'" class="h-full w-full object-cover group-hover:scale-[1.02] transition-transform" loading="lazy" />
+                    </div>
+                    <div class="p-4">
+                      <h3 class="font-semibold group-hover:text-primary-700" x-text="item.title"></h3>
+                      <p class="text-sm text-slate-600 mt-1 line-clamp-2 dark:text-slate-300" x-text="item.summary"></p>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        <template x-for="tech in item.stack" :key="tech"><span class="px-2 py-1 bg-slate-50 ring-1 ring-slate-200 rounded text-xs dark:bg-slate-800 dark:ring-slate-700" x-text="tech"></span></template>
+                      </div>
+                    </div>
+                  </button>
+                </article>
+              </template>
+            </div>
+
+            <div class="mt-8 flex justify-center" x-show="projects.length > 3">
+              <button
+                @click="
+                  showAllProjects = !showAllProjects;
+                  if (!showAllProjects) {
+                    window.location.hash = 'projects';
+                    // Scroll to the projects section after hash change
+                    $nextTick(() => {
+                      const el = document.getElementById('projects');
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                  }
+                "
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-md ring-1 ring-slate-200 bg-white hover:ring-slate-300 text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-600 dark:bg-slate-900 dark:ring-slate-700 dark:hover:ring-slate-600 dark:text-slate-100"
+              >
+                <span x-text="showAllProjects ? 'Show less' : 'Show all projects'"></span>
+              </button>
+            </div>
+
+            <!-- Project Modal -->
+            <div x-cloak x-show="activeProject" x-transition.opacity class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-6" aria-labelledby="project-title" role="dialog" aria-modal="true">
+              <div @click.outside="closeProject()" class="w-full sm:max-w-3xl bg-white rounded-t-2xl sm:rounded-2xl overflow-hidden ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
+                <div class="flex items-center justify-between p-4 border-b dark:border-slate-700">
+                  <h3 id="project-title" class="text-lg font-semibold" x-text="activeProject?.title"></h3>
+                  <button @click="closeProject()" class="rounded p-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-600 dark:hover:bg-slate-800" aria-label="Close project details">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                </div>
+                <div class="p-4 grid gap-4">
+                  <!-- Slides -->
+                  <div class="relative rounded-lg overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700">
+                    <template x-if="activeProject">
+                      <img :src="activeProject.slides[activeSlide]" :alt="activeProject.title + ' slide ' + (activeSlide+1)" class="w-full aspect-video object-cover" loading="lazy" />
+                    </template>
+                    <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/20 to-transparent"></div>
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                      <template x-for="(s, idx) in (activeProject? activeProject.slides : [])" :key="idx">
+                        <button @click="activeSlide = idx" class="pointer-events-auto h-2 w-6 rounded-full" :class="idx === activeSlide ? 'bg-white' : 'bg-white/50'" aria-label="Go to slide"></button>
+                      </template>
+                    </div>
+                    <div class="absolute inset-y-0 left-0 flex items-center">
+                      <button @click="prevProject()" class="m-2 rounded bg-white/80 hover:bg-white p-2 ring-1 ring-slate-200 pointer-events-auto dark:bg-slate-900/80 dark:hover:bg-slate-900 dark:ring-slate-700" aria-label="Previous project">◀</button>
+                    </div>
+                    <div class="absolute inset-y-0 right-0 flex items-center">
+                      <button @click="nextProject()" class="m-2 rounded bg-white/80 hover:bg-white p-2 ring-1 ring-slate-200 pointer-events-auto dark:bg-slate-900/80 dark:hover:bg-slate-900 dark:ring-slate-700" aria-label="Next project">▶</button>
+                    </div>
+                  </div>
+                  <!-- Details -->
+                  <div class="grid sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2">
+                      <p class="text-slate-700 dark:text-slate-300" x-text="activeProject?.description"></p>
+                      <ul class="mt-3 list-disc list-inside text-sm text-slate-600 space-y-1 dark:text-slate-300">
+                        <template x-for="point in activeProject?.highlights" :key="point"><li x-text="point"></li></template>
+                      </ul>
+                    </div>
+                    <aside class="sm:col-span-1">
+                      <p class="text-sm font-medium">Tech Stack</p>
+                      <div class="mt-2 flex flex-wrap gap-2 text-xs">
+                        <template x-for="t in activeProject?.stack" :key="t"><span class="px-2 py-1 bg-slate-50 ring-1 ring-slate-200 rounded dark:bg-slate-800 dark:ring-slate-700" x-text="t"></span></template>
+                      </div>
+                      <div class="mt-4 flex gap-2">
+                        <template x-if="activeProject?.link">
+                          <a :href="activeProject.link" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm px-3 py-2 bg-primary-600 text-white rounded hover:bg-primary-700">
+                            Demo / Repo
+                          </a>
+                        </template>
+                      </div>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Resume / Download -->
+        <section id="resume" class="py-16 sm:py-20">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-10 items-start">
+              <div class="lg:col-span-2">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Resume</h2>
+                <p class="mt-2 text-slate-600 dark:text-slate-300">Download a PDF resume or view a print‑friendly page.</p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                  <a href="resume.html" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-3 rounded-md shadow-soft transition-colors" aria-label="Open resume page">Open Resume</a>
+                  <a id="downloadPdfBtn" href="assets/resume.pdf" download class="inline-flex items-center gap-2 bg-white ring-1 ring-slate-200 hover:ring-slate-300 text-slate-800 px-5 py-3 rounded-md dark:bg-slate-900 dark:ring-slate-700 dark:hover:ring-slate-600 dark:text-slate-100" aria-label="Download resume PDF">Download PDF</a>
+                </div>
+                <!-- <p class="mt-2 text-xs text-slate-500">Note: Replace the placeholder PDF at <code>assets/resume.pdf</code> after exporting from the resume page.</p> -->
+              </div>
+              <aside class="lg:col-span-1 bg-slate-50 ring-1 ring-slate-200 rounded-xl p-5 dark:bg-slate-800 dark:ring-slate-700">
+                <p class="text-sm font-medium">Privacy</p>
+                <p class="text-sm text-slate-600 mt-1 dark:text-slate-300">This site displays limited personal info (city and masked phone). Full address and full phone are not published by default.</p>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="py-16 sm:py-20 bg-slate-50 dark:bg-slate-800">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-10 items-start">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Get in touch</h2>
+                <p class="mt-2 text-slate-600 dark:text-slate-300">Use the form or reach me directly via email. I’ll reply within 1–2 business days.</p>
+                <div class="mt-6 space-y-2 text-sm">
+                  <div class="flex items-center gap-2"><span class="font-medium w-24">Email</span><a href="mailto:riskisuleman76@gmail.com" class="text-primary-700 hover:underline">riskisuleman76@gmail.com</a></div>
+                  <div class="flex items-center gap-2"><span class="font-medium w-24">Location</span><span>Indramayu, West Java, ID</span></div>
+                </div>
+              </div>
+              <form action="https://formspree.io/f/mblkvjnd" method="POST" class="bg-white ring-1 ring-slate-200 rounded-xl p-5 shadow-soft dark:bg-slate-900 dark:ring-slate-700" x-data="{ sent:false }" @submit="sent=true" aria-label="Contact form" novalidate>
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="name" class="block text-sm font-medium">Name</label>
+                    <input id="name" name="name" type="text" required class="mt-1 w-full rounded-md bg-white border-slate-300 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100" placeholder="Your name" />
+                  </div>
+                  <div>
+                    <label for="email" class="block text-sm font-medium">Email</label>
+                    <input id="email" name="email" type="email" required class="mt-1 w-full rounded-md bg-white border-slate-300 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100" placeholder="you@example.com" />
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label for="message" class="block text-sm font-medium">Message</label>
+                    <textarea id="message" name="message" rows="5" required minlength="10" class="mt-1 w-full rounded-md bg-white border-slate-300 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100" placeholder="How can I help?"></textarea>
+                  </div>
+                  <div class="sm:col-span-2 flex items-center justify-between">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Protected by Formspree. Do not include sensitive information.</p>
+                    <button type="submit" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-md">
+                      <span x-show="!sent">Send</span>
+                      <span x-show="sent">Sending…</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="border-t dark:border-slate-700">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400">© <span x-text="new Date().getFullYear()"></span> Rizky Sulaeman. All rights reserved.</p>
+            <div class="flex items-center gap-4">
+              <a href="#resume" class="text-sm text-slate-600 hover:text-primary-700 dark:text-slate-300">Resume</a>
+              <a href="#projects" class="text-sm text-slate-600 hover:text-primary-700 dark:text-slate-300">Projects</a>
+              <a href="#contact" class="text-sm text-slate-600 hover:text-primary-700 dark:text-slate-300">Contact</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <noscript>
+      <div class="fixed bottom-2 left-1/2 -translate-x-1/2 bg-amber-50 text-amber-900 ring-1 ring-amber-200 px-3 py-2 rounded">This site works best with JavaScript enabled (for animations and modals), but all content remains accessible.</div>
+    </noscript>
+
+    <!-- Alpine app state and helpers -->
+    <script>
+      function portfolioApp() {
+        return {
+          isMenuOpen: false,
+          showAllProjects: false,
+          activeProject: null,
+          activeSlide: 0,
+          activeProjectIndex: -1,
+          dark: false,
+          skills: {
+            coursework: [
+              'Data Structures & Algorithms',
+              'Operating Systems',
+              'Network Security',
+              'Artificial Intelligence',
+              'Android Development',
+              'Database Management Systems',
+              'Web Development'
+            ],
+            languages: ['Python', 'PHP', 'C++', 'Shell Scripting', 'Java', 'Kotlin', 'JavaScript', 'SQL', 'NoSQL'],
+            frameworks: ['Linux', 'Git', 'GitHub', 'Laravel', 'Django', 'Flask', 'ReactJS', 'VueJS', 'NodeJS', 'Alpine.js', 'Flutter', 'React Native', 'Docker', 'Kubernetes', 'PostgreSQL', 'MySQL']
+          },
+          projects: [
+            {
+              id: 'elearning',
+              title: 'E‑Learning SMK Telematika Indramayu',
+              year: '2022',
+              stack: ['PHP', 'MySQL', 'Laravel'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Web‑based E‑Learning with interactive modules, quizzes, exams, attendance & notifications.',
+              description: 'Developed an E‑Learning platform supporting online teaching activities with interactive modules, assessments, and real‑time attendance notifications for parents. Built a teacher dashboard for class management, grading, and feedback.',
+              highlights: [
+                'Interactive modules, quizzes, and exams',
+                'Digital attendance with real‑time parent notifications',
+                'Teacher dashboard for streamlined class management'
+              ],
+              link: ''
+            },
+            {
+              id: 'expert-system',
+              title: 'Sistem Pakar – Politeknik Negeri Indramayu',
+              year: '2022',
+              stack: ['PHP', 'Python', 'Laravel', 'VueJS', 'React Native'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Expert system for early diagnosis of facial paralysis for students and staff.',
+              description: 'Built web and mobile expert system. Designed and trained a diagnostic model in Python, integrated with a Laravel backend and VueJS/React Native frontends. Focused on accessibility and ease of use.',
+              highlights: [
+                'ML model integration with Laravel backend',
+                'Cross‑platform web and mobile UI/UX',
+                'Early diagnosis assistance'
+              ],
+              link: ''
+            },
+            {
+              id: 'delivery-expedition',
+              title: 'Delivery Expedition — PT Dwi Dharma Djaya',
+              year: '2023',
+              stack: ['PHP', 'Python', 'MySQL', 'Laravel', 'React Native', 'Midtrans'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Logistics system to optimize coal delivery routes and automate payments.',
+              description: 'Engineered smart logistics that reduced travel time and costs. Implemented vehicle recommendation based on cargo weight, and integrated Midtrans for secure, automated payments.',
+              highlights: [
+                'Route optimization and fleet allocation',
+                'Vehicle type recommendation by cargo weight',
+                'Midtrans payment gateway integration'
+              ],
+              link: ''
+            },
+            {
+              id: 'smart-link-system',
+              title: 'Smart Link System — PT Cybers Blitz Nusantara',
+              year: '2024',
+              stack: ['Python', 'PostgreSQL', 'Django', 'jQuery', 'Docker', 'Kubernetes'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Corporate financial reporting integrated with Smart Routing System in production.',
+              description: 'Developed and deployed a financial reporting system integrated with the company’s Smart Routing. Ensured HA and stability with Docker and Kubernetes; enabled secure remote access.',
+              highlights: [
+                'Containerization and orchestration for HA',
+                'Secure remote access for employees',
+                'Integrated with Smart Routing System'
+              ],
+              link: ''
+            },
+            {
+              id: 'multi-agent-mcp',
+              title: 'Multi‑Agent System with MCP Context',
+              year: '2025',
+              stack: ['Python', 'Flask', 'jQuery', 'NodeJS', 'LangChain'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Architecture where multiple AI agents collaborate via voice/text to solve complex tasks.',
+              description: 'Designed and built a multi‑agent architecture. Fine‑tuned 8 specialized LLM agents (Gemma 3, Llama) using RL; enabled autonomous voice/text interactions.',
+              highlights: [
+                '8 specialized LLM agents (Gemma 3, Llama) via RL',
+                'Voice and text interactions',
+                'Autonomous cooperation between agents'
+              ],
+              link: ''
+            },
+            {
+              id: 'cv-screening',
+              title: 'CV Screening for Recruitment Efficiency',
+              year: '2025',
+              stack: ['Python', 'Laravel', 'NLP'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'AI‑powered application to automate CV screening and improve accuracy.',
+              description: 'Built NLP pipeline to extract key information and match qualifications to job requirements. Implemented document upload and analysis dashboard for HR.',
+              highlights: [
+                'NLP extraction and matching',
+                'Upload and analysis dashboard',
+                'Improved HR decision‑making'
+              ],
+              link: ''
+            },
+            {
+              id: 'sentiment-prabowo',
+              title: 'Sentiment Analysis of Leadership Performance — Prabowo Subianto',
+              year: '',
+              stack: ['PHP', 'Python', 'Laravel', 'NLP'],
+              thumbnail: 'assets/project-placeholder.svg',
+              slides: ['assets/project-placeholder.svg'],
+              summary: 'Scraped data and classified opinions (positive/negative/neutral); interactive dashboard.',
+              description: 'Implemented web scraping for social media and news portals. Built an NLP sentiment classifier and an interactive Laravel dashboard for insights.',
+              highlights: [
+                'Automated scraping and sentiment classification',
+                'Interactive charts and dashboards',
+                'Public opinion trend insights'
+              ],
+              link: ''
+            }
+          ],
+          openProject(item) { const idx = this.projects.findIndex(p => p.id === item.id); this.activeProjectIndex = idx !== -1 ? idx : 0; this.activeProject = this.projects[this.activeProjectIndex]; this.activeSlide = 0; document.body.classList.add('overflow-hidden'); },
+          closeProject() { this.activeProject = null; this.activeProjectIndex = -1; document.body.classList.remove('overflow-hidden'); },
+          nextSlide() { if (!this.activeProject) return; this.activeSlide = (this.activeSlide + 1) % this.activeProject.slides.length; },
+          prevSlide() { if (!this.activeProject) return; this.activeSlide = (this.activeSlide - 1 + this.activeProject.slides.length) % this.activeProject.slides.length; },
+          nextProject() { if (!this.projects?.length) return; if (this.activeProjectIndex < 0) this.activeProjectIndex = 0; this.activeProjectIndex = (this.activeProjectIndex + 1) % this.projects.length; this.activeProject = this.projects[this.activeProjectIndex]; this.activeSlide = 0; },
+          prevProject() { if (!this.projects?.length) return; if (this.activeProjectIndex < 0) this.activeProjectIndex = 0; this.activeProjectIndex = (this.activeProjectIndex - 1 + this.projects.length) % this.projects.length; this.activeProject = this.projects[this.activeProjectIndex]; this.activeSlide = 0; },
+          init() {
+            this.dark = document.documentElement.classList.contains('dark');
+          },
+          setTheme(mode) {
+            const isDark = mode === 'dark';
+            this.dark = isDark;
+            document.documentElement.classList.toggle('dark', isDark);
+            try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch(e) {}
+          },
+          toggleTheme() {
+            this.setTheme(this.dark ? 'light' : 'dark');
+          }
+        };
+      }
+
+      function counter(target) {
+        return {
+          value: 0,
+          init() {
+            const max = Number(target) || 0;
+            const duration = 900;
+            const start = performance.now();
+            const tick = (t) => {
+              const p = Math.min(1, (t - start) / duration);
+              this.value = Math.floor(p * max);
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        }
+      }
+
+      // Hide PDF download button if file missing
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('downloadPdfBtn');
+        if (!btn) return;
+        fetch(btn.getAttribute('href'), { method: 'HEAD' }).then(r => {
+          if (!r.ok) btn.style.display = 'none';
+        }).catch(() => { btn.style.display = 'none'; });
+      });
+    </script>
+  </body>
+  </html>
+
+
