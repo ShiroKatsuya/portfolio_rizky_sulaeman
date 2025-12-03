@@ -676,8 +676,16 @@
                 <button @click="openProject(item)"
                   class="text-left w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary-600">
                   <div class="aspect-video overflow-hidden">
-                    <img :src="item.thumbnail" :alt="item.title + ' thumbnail'"
-                      class="h-full w-full object-cover group-hover:scale-[1.02] transition-transform" loading="lazy" />
+                    <template x-if="item.thumbnail.endsWith('.mp4') || item.thumbnail.endsWith('.webm')">
+                      <video :src="item.thumbnail"
+                        class="h-full w-full object-cover group-hover:scale-[1.02] transition-transform" autoplay loop
+                        muted playsinline></video>
+                    </template>
+                    <template x-if="!item.thumbnail.endsWith('.mp4') && !item.thumbnail.endsWith('.webm')">
+                      <img :src="item.thumbnail" :alt="item.title + ' thumbnail'"
+                        class="h-full w-full object-cover group-hover:scale-[1.02] transition-transform"
+                        loading="lazy" />
+                    </template>
                   </div>
                   <div class="p-4">
                     <h3 class="font-semibold group-hover:text-primary-700" x-text="item.title"></h3>
@@ -730,7 +738,13 @@
               <div class="p-4 grid gap-4">
                 <!-- Slides -->
                 <div class="relative rounded-lg overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700">
-                  <template x-if="activeProject">
+                  <template
+                    x-if="activeProject && (activeProject.slides[activeSlide].endsWith('.mp4') || activeProject.slides[activeSlide].endsWith('.webm'))">
+                    <video :src="activeProject.slides[activeSlide]" class="w-full aspect-video object-cover" autoplay
+                      loop muted playsinline controls></video>
+                  </template>
+                  <template
+                    x-if="activeProject && !activeProject.slides[activeSlide].endsWith('.mp4') && !activeProject.slides[activeSlide].endsWith('.webm')">
                     <img :src="activeProject.slides[activeSlide]"
                       :alt="activeProject.title + ' slide ' + (activeSlide+1)" class="w-full aspect-video object-cover"
                       loading="lazy" />
@@ -1014,7 +1028,7 @@
           {
             id: 'sentiment-prabowo',
             title: 'Sentiment Analysis of Leadership Performance — Prabowo Subianto',
-            year: '',
+            year: '2025',
             stack: ['PHP', 'Python', 'Laravel', 'NLP'],
             thumbnail: 'assets/setimen_analisis.png',
             slides: ['assets/setimen_analisis.png'],
@@ -1030,7 +1044,7 @@
           {
             id: 'Sistem Inventori dan Kasir Online',
             title: 'Sistem Inventori dan Kasir Online',
-            year: '',
+            year: '2025',
             stack: ['PHP', 'Laravel', 'MySQL', 'React.js'],
             thumbnail: 'assets/project-placeholder.svg',
             slides: ['assets/project-placeholder.svg'],
@@ -1042,7 +1056,126 @@
               'Interactive sales and inventory analytics'
             ],
             link: 'https://github.com/ShiroKatsuya/Aplikasi-Inventory'
-          }
+          },
+
+          {
+            id: 'Sistem Pelaporan Kriminalitas Jakarta',
+            title: 'Sistem Pelaporan Kriminalitas Jakarta',
+            year: '2025',
+            stack: ['React + Leaflet + TailwindCSS', 'Node.js + Express', 'PostgreSQL + PostGIS', 'JWT'],
+            thumbnail: 'assets/lapor_kriminalitas.mp4', // Use a video for the thumbnail
+            slides: ['assets/lapor_kriminalitas.mp4', 'assets/kriminalitas1.png', 'assets/kriminalitas2.png'], // Include video in slides
+            summary: 'Developed a web-based crime reporting and visual mapping system for DKI Jakarta. Features an interactive heatmap using Leaflet and PostGIS, anonymous report submission, and a comprehensive admin dashboard for data management and analytics.',
+            description: 'Developed a web-based crime reporting and visual mapping system for DKI Jakarta. Features an interactive heatmap using Leaflet and PostGIS, anonymous report submission, and a comprehensive admin dashboard for data management and analytics.',
+            highlights: [
+              'Interactive crime heatmap and manual zone mapping',
+              'Anonymous public reporting with location picking',
+              'Admin dashboard for analytics and report management'
+            ],
+            link: 'https://github.com/ShiroKatsuya/Sistem-Pelaporan-Kriminalitas-Jakarta'
+          },
+
+          {
+            id: 'Latihan Wawasan Antariksa',
+            title: 'Latihan Wawasan Antariksa',
+            year: '2025',
+            stack: ['React Native', 'Expo', 'NativeWind'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Built a cross-platform mobile education app for space learning using React Native and Expo. Features interactive quizzes on Solar System and Eclipses, with modern UI and camera scanning capabilities.',
+            description: 'Built a cross-platform mobile education app for space learning using React Native and Expo. Features interactive quizzes on Solar System and Eclipses, with modern UI and camera scanning capabilities.',
+            highlights: [
+              'Interactive quiz-based learning system',
+              'Modern UI with animated starfield backgrounds',
+              'Cross-platform deployment (iOS/Android/Web)'
+            ],
+            link: 'https://github.com/ShiroKatsuya/Latihan-Wawasan-Antariksa'
+          },
+
+          {
+            id: 'Check Kesehatan Jiwa',
+            title: 'Check Kesehatan Jiwa',
+            year: '2025',
+            stack: ['Next.js 14', 'Tailwind CSS', 'Clerk Auth', 'FastAPI', 'Python', 'PostgreSQL', 'pgvector', 'Ollama (qwen3-vl:2b)', 'LangChain'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Developed a mental health journaling application with AI-powered coping suggestions. Built using Next.js, FastAPI, and Ollama\'s qwen3-vl:2b model for personalized mental wellness insights and mood tracking.',
+            description: 'Developed a mental health journaling application with AI-powered coping suggestions. Built using Next.js, FastAPI, and Ollama\'s qwen3-vl:2b model for personalized mental wellness insights and mood tracking.',
+            highlights: [
+              'AI-powered personalized coping strategies',
+              'Daily mood tracking and journaling',
+              'Interactive dashboard for mental health insights'
+            ],
+            link: 'https://github.com/ShiroKatsuya/Check-Kesehatan-Jiwa'
+          },
+          {
+            id: 'Jasa Tetangga',
+            title: 'Jasa Tetangga',
+            year: '2025',
+            stack: ['Next.js', 'React Leaflet', 'Socket.io', 'next-pwa', 'Node.js', 'Express.js', 'PostgreSQL', 'Prisma', 'JWT & Mock WhatsApp OTP'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Built a hyper-local neighborhood services marketplace connecting neighbors within 1-2 km radius. Developed with Next.js and Express.js featuring interactive maps, real-time notifications, and PWA capabilities.',
+            description: 'Built a hyper-local neighborhood services marketplace connecting neighbors within 1-2 km radius. Developed with Next.js and Express.js featuring interactive maps, real-time notifications, and PWA capabilities.',
+            highlights: [
+              'Real-time service notifications and updates',
+              'Interactive location-based service posting with maps',
+              'Mobile-first PWA with WhatsApp-based authentication'
+            ],
+            link: 'https://github.com/ShiroKatsuya/JasaTetangga'
+          },
+
+          {
+            id: 'Siskamling Digital',
+            title: 'Siskamling Digital',
+            year: '2025',
+            stack: ['Next.js', 'Leaflet', 'Socket.IO', 'Lucide React', 'NestJS', 'PostgreSQL', 'Passport.js (JWT)', 'Web Push'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Developed a comprehensive digital neighborhood security platform with real-time incident reporting, panic button alerts, and interactive mapping dashboard for citizens and authorities.',
+            description: 'Developed a comprehensive digital neighborhood security platform with real-time incident reporting, panic button alerts, and interactive mapping dashboard for citizens and authorities.',
+            highlights: [
+              'Real-time incident reporting and panic alerts',
+              'Interactive maps with safety hotspot visualization',
+              'Role-based dashboards with live notifications'
+            ],
+            link: 'https://github.com/ShiroKatsuya/SiskamllingDigital'
+          },
+
+          {
+            id: 'Server Monitoring',
+            title: 'Server Monitoring',
+            year: '2025',
+            stack: ['Grafana', 'Prometheus'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Built a complete server monitoring system using Prometheus and Grafana on WSL2. Implemented real-time metrics collection from Linux hosts and MikroTik routers with interactive dashboards.',
+            description: 'Built a complete server monitoring system using Prometheus and Grafana on WSL2. Implemented real-time metrics collection from Linux hosts and MikroTik routers with interactive dashboards.',
+            highlights: [
+              'Real-time infrastructure monitoring with Prometheus',
+              'Node Exporter and SNMP integration for multi-source metrics',
+              'Interactive Grafana dashboards for comprehensive insights'
+            ],
+            link: 'https://monitoring-system-using-prometheus.vercel.app/'
+          },
+
+          {
+            id: 'Set up an SSH server on Ubuntu and deploy ChatGPT locally',
+            title: 'Set up an SSH server on Ubuntu and deploy ChatGPT locally',
+            year: '2025',
+            stack: ['SSH', 'OLLAM', 'NGINX'],
+            thumbnail: 'assets/project-placeholder.svg',
+            slides: ['assets/project-placeholder.svg'],
+            summary: 'Configured SSH server on WSL2 with remote access capabilities and deployed Ollama for local AI model hosting. Implemented Nginx reverse proxy with authentication for secure AI service access.',
+            description: 'Configured SSH server on WSL2 with remote access capabilities and deployed Ollama for local AI model hosting. Implemented Nginx reverse proxy with authentication for secure AI service access.',
+            highlights: [
+              'SSH server setup with automated port forwarding',
+              'Ollama AI model hosting and configuration',
+              'Nginx reverse proxy with Basic Auth security'
+            ],
+            link: 'https://set-up-an-ssh-server-on-ubuntu-and.vercel.app/'
+          },
+
         ],
         openProject(item) { const idx = this.projects.findIndex(p => p.id === item.id); this.activeProjectIndex = idx !== -1 ? idx : 0; this.activeProject = this.projects[this.activeProjectIndex]; this.activeSlide = 0; document.body.classList.add('overflow-hidden'); },
         closeProject() { this.activeProject = null; this.activeProjectIndex = -1; document.body.classList.remove('overflow-hidden'); },
