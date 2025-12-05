@@ -792,6 +792,14 @@
                         </a>
                       </template>
                     </div>
+                    <div class="mt-4 flex gap-2">
+                      <template x-if="activeProject?.youtube">
+                        <a :href="activeProject.youtube" target="_blank" rel="noopener"
+                          class="inline-flex items-center gap-2 text-sm px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                          YouTube
+                        </a>
+                      </template>
+                    </div>
                   </aside>
                 </div>
               </div>
@@ -1046,8 +1054,8 @@
             title: 'Sistem Inventori dan Kasir Online',
             year: '2025',
             stack: ['PHP', 'Laravel', 'MySQL', 'React.js'],
-            thumbnail: 'assets/project-placeholder.svg',
-            slides: ['assets/project-placeholder.svg'],
+            thumbnail: 'assets/AplikasiKasirMenggunakanLaraveldanReactJS.mp4', // Use a video for the thumbnail
+            slides: ['assets/AplikasiKasirMenggunakanLaraveldanReactJS.mp4', 'assets/AplikasiKasirMenggunakanLaraveldanReactJS1.png', 'assets/AplikasiKasirMenggunakanLaraveldanReactJS2.png'],
             summary: 'Developed a full-stack inventory and Point of Sale (POS) application. Implemented role-based access control, real-time stock management, and an interactive dashboard for sales analytics.',
             description: 'Developed a full-stack inventory and Point of Sale (POS) application. Implemented role-based access control, real-time stock management, and an interactive dashboard for sales analytics.',
             highlights: [
@@ -1055,7 +1063,8 @@
               'Integrated Point of Sale (POS) system',
               'Interactive sales and inventory analytics'
             ],
-            link: 'https://github.com/ShiroKatsuya/Aplikasi-Inventory'
+            link: 'https://github.com/ShiroKatsuya/Aplikasi-Inventory',
+            youtube: 'https://www.youtube.com/watch?v=q2TR6M7oJcg&t=504s'
           },
 
           {
@@ -1080,8 +1089,8 @@
             title: 'Latihan Wawasan Antariksa',
             year: '2025',
             stack: ['React Native', 'Expo', 'NativeWind'],
-            thumbnail: 'assets/project-placeholder.svg',
-            slides: ['assets/project-placeholder.svg'],
+            thumbnail: 'assets/LatihanWawasanAntariksa.mp4', // Use a video for the thumbnail
+            slides: ['assets/LatihanWawasanAntariksa.mp4', 'assets/LatihanWawasanAntariksa1.png', 'assets/LatihanWawasanAntariksa2.png'],
             summary: 'Built a cross-platform mobile education app for space learning using React Native and Expo. Features interactive quizzes on Solar System and Eclipses, with modern UI and camera scanning capabilities.',
             description: 'Built a cross-platform mobile education app for space learning using React Native and Expo. Features interactive quizzes on Solar System and Eclipses, with modern UI and camera scanning capabilities.',
             highlights: [
@@ -1089,7 +1098,8 @@
               'Modern UI with animated starfield backgrounds',
               'Cross-platform deployment (iOS/Android/Web)'
             ],
-            link: 'https://github.com/ShiroKatsuya/Latihan-Wawasan-Antariksa'
+            link: 'https://github.com/ShiroKatsuya/Latihan-Wawasan-Antariksa',
+            youtube: 'https://www.youtube.com/watch?v=aeTVbQhEs-w'
           },
 
           {
@@ -1174,6 +1184,42 @@
               'Nginx reverse proxy with Basic Auth security'
             ],
             link: 'https://set-up-an-ssh-server-on-ubuntu-and.vercel.app/'
+          },
+
+
+          {
+            id: 'Tutorial Lengkap Menjalankan & Mengatur Model LLM di GPU (CUDA + PyTorch)',
+            title: 'Tutorial Lengkap Menjalankan & Mengatur Model LLM di GPU (CUDA + PyTorch)',
+            year: '2025',
+            stack: ['Python', 'Pytorch', 'CUDA', 'NVIDIA', 'Ollama'],
+            thumbnail: 'assets/TutorialLengkapMenjalankan&MengaturModelLLMdiGPU(CUDAPyTorch).mp4', // Use a video for the thumbnail
+            slides: ['assets/TutorialLengkapMenjalankan&MengaturModelLLMdiGPU(CUDAPyTorch).mp4', 'assets/TutorialLengkapMenjalankan&MengaturModelLLMdiGPU(CUDAPyTorch)1.png', 'assets/TutorialLengkapMenjalankan&MengaturModelLLMdiGPU(CUDAPyTorch)2.png'],
+            summary: 'Authored a technical guide for executing and optimizing Large Language Models on NVIDIA GPUs. Configured CUDA-accelerated PyTorch environments and implemented quantization strategies for efficient memory management.',
+            description: 'Authored a technical guide for executing and optimizing Large Language Models on NVIDIA GPUs. Configured CUDA-accelerated PyTorch environments and implemented quantization strategies for efficient memory management.',
+            highlights: [
+              'High-performance GPU inference',
+              'CUDA & PyTorch configuration',
+              'Memory-efficient model optimization'
+            ],
+            youtube: '#'
+          },
+
+
+          {
+            id: 'Tutorial Menjalankan LLM (Large Language Model) di Komputer Pribadi Menggunakan Ollama',
+            title: 'Tutorial Menjalankan LLM (Large Language Model) di Komputer Pribadi Menggunakan Ollama',
+            year: '2025',
+            stack: ['Python', 'Pytorch', 'CUDA', 'NVIDIA', 'Ollama'],
+            thumbnail: 'assets/TutorialMenjalankanLLMdiKomputerPribadiMenggunakanOllama.mp4', // Use a video for the thumbnail
+            slides: ['assets/TutorialMenjalankanLLMdiKomputerPribadiMenggunakanOllama.mp4', 'assets/TutorialMenjalankanLLMdiKomputerPribadiMenggunakanOllama1.png', 'assets/TutorialMenjalankanLLMdiKomputerPribadiMenggunakanOllama2.png'],
+            summary: 'Developed a comprehensive step-by-step tutorial for deploying Large Language Models locally using Ollama. Covered installation procedures, efficient model management via CLI, and REST API integration for offline, privacy-centric AI workflows.',
+            description: 'Developed a comprehensive step-by-step tutorial for deploying Large Language Models locally using Ollama. Covered installation procedures, efficient model management via CLI, and REST API integration for offline, privacy-centric AI workflows.',
+            highlights: [
+              'Local, privacy-first LLM deployment',
+              'Streamlined model management and CLI',
+              'Seamless REST API integration'
+            ],
+            youtube: '#'
           },
 
         ],
