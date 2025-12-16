@@ -8,299 +8,1024 @@
   <meta name="description"
     content="Resume of Rizky Sulaeman (Full Stack Software Engineer) — education, experience, projects, and skills." />
   <meta name="color-scheme" content="light dark" />
-  <script>
-    // Apply theme ASAP to avoid FOUC
-    (function () {
-      try {
-        var ls = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (ls === 'dark' || (!ls && prefersDark)) document.documentElement.classList.add('dark');
-      } catch (e) { }
-    })();
-  </script>
+
+  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
+    /* ============================================
+       DESIGN TOKENS & CUSTOM PROPERTIES
+       ============================================ */
     :root {
-      --ink: #0f172a;
-      --muted: #475569;
-      --line: #e2e8f0;
-      --page: #ffffff
+      /* Colors - Light Theme */
+      --primary: hsl(220, 85%, 55%);
+      --primary-hover: hsl(220, 85%, 50%);
+      --surface: hsl(220, 30%, 98%);
+      --surface-elevated: hsl(0, 0%, 100%);
+      --card-bg: hsla(0, 0%, 100%, 0.8);
+      --text-primary: hsl(220, 20%, 15%);
+      --text-secondary: hsl(220, 15%, 45%);
+      --text-tertiary: hsl(220, 10%, 60%);
+      --border: hsl(220, 20%, 90%);
+      --border-subtle: hsl(220, 15%, 94%);
+      --shadow-sm: 0 1px 3px hsla(220, 20%, 15%, 0.08);
+      --shadow-md: 0 4px 12px hsla(220, 20%, 15%, 0.12);
+      --shadow-lg: 0 12px 32px hsla(220, 20%, 15%, 0.15);
+      --gradient-accent: linear-gradient(135deg, hsl(220, 85%, 55%), hsl(260, 75%, 60%));
+      --blur-glass: blur(16px);
+
+      /* Spacing Scale (4px base) */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+      --space-8: 3rem;
+      --space-10: 4rem;
+      --space-12: 6rem;
+
+      /* Typography Scale */
+      --font-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --font-sm: clamp(0.875rem, 0.8rem + 0.4vw, 1rem);
+      --font-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --font-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+      --font-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+      --font-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+      --font-3xl: clamp(2rem, 1.5rem + 2vw, 3rem);
+
+      /* Animation */
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --duration-fast: 150ms;
+      --duration-normal: 250ms;
+      --duration-slow: 400ms;
     }
 
     html.dark {
-      --ink: #e2e8f0;
-      --muted: #94a3b8;
-      --line: #334155;
-      --page: #0f172a
+      /* Colors - Dark Theme */
+      --primary: hsl(220, 85%, 65%);
+      --primary-hover: hsl(220, 85%, 70%);
+      --surface: hsl(220, 25%, 8%);
+      --surface-elevated: hsl(220, 20%, 12%);
+      --card-bg: hsla(220, 20%, 15%, 0.6);
+      --text-primary: hsl(220, 15%, 95%);
+      --text-secondary: hsl(220, 10%, 70%);
+      --text-tertiary: hsl(220, 8%, 55%);
+      --border: hsl(220, 20%, 25%);
+      --border-subtle: hsl(220, 15%, 20%);
+      --shadow-sm: 0 1px 3px hsla(0, 0%, 0%, 0.3);
+      --shadow-md: 0 4px 12px hsla(0, 0%, 0%, 0.4);
+      --shadow-lg: 0 12px 32px hsla(0, 0%, 0%, 0.5);
+      --gradient-accent: linear-gradient(135deg, hsl(220, 85%, 65%), hsl(260, 75%, 70%));
     }
 
-    * {
-      box-sizing: border-box
+    /* ============================================
+       VIEW TRANSITIONS CONFIGURATION
+       ============================================ */
+    @view-transition {
+      navigation: auto;
+    }
+
+    /* Scoped transition roots */
+    .scope-header,
+    .scope-summary,
+    .scope-experience,
+    .scope-projects,
+    .scope-sidebar,
+    .scope-extracurricular {
+      contain: layout style;
+    }
+
+    /* Default transition animations */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 400ms;
+      animation-timing-function: var(--ease-smooth);
+    }
+
+    /* Theme transition with radial morph */
+    ::view-transition-old(theme-toggle) {
+      animation: fade-out 300ms var(--ease-smooth);
+    }
+
+    ::view-transition-new(theme-toggle) {
+      animation: fade-in 300ms var(--ease-smooth);
+    }
+
+    /* Card expand/collapse */
+    ::view-transition-old(card),
+    ::view-transition-new(card) {
+      height: auto;
+    }
+
+    @keyframes fade-out {
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+    }
+
+    /* ============================================
+       BASE STYLES & RESET
+       ============================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body {
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji;
-      color: var(--ink);
-      background: var(--page);
-      margin: 0;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-primary);
+      background: var(--surface);
+      font-size: var(--font-base);
+      line-height: 1.6;
+      transition: background-color var(--duration-normal) var(--ease-smooth),
+        color var(--duration-normal) var(--ease-smooth);
     }
 
+    /* ============================================
+       LAYOUT & STRUCTURE
+       ============================================ */
     .page {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 32px
+      padding: var(--space-6) var(--space-4);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 28px
-    }
-
-    header p {
-      margin: 4px 0;
-      color: var(--muted)
-    }
-
-    .grid {
+    .grid-main {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 24px
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      margin-top: var(--space-8);
     }
 
+    @media (min-width: 768px) {
+      .page {
+        padding: var(--space-8) var(--space-6);
+      }
+
+      .grid-main {
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-8);
+      }
+    }
+
+    /* ============================================
+       HEADER COMPONENT
+       ============================================ */
+    .scope-header {
+      view-transition-name: header-section;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background: var(--card-bg);
+      backdrop-filter: var(--blur-glass);
+      border-radius: 1.5rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (min-width: 640px) {
+      .scope-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .header-info h1 {
+      font-size: var(--font-3xl);
+      font-weight: 700;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-2);
+    }
+
+    .header-contact {
+      font-size: var(--font-sm);
+      color: var(--text-secondary);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .header-contact a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-smooth);
+    }
+
+    .header-contact a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    /* ============================================
+       BUTTONS & INTERACTIVE ELEMENTS
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      font-size: var(--font-sm);
+      font-weight: 600;
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-smooth);
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    /* ============================================
+       CARD COMPONENTS
+       ============================================ */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1.25rem;
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--duration-normal) var(--ease-smooth);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .card-interactive {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-interactive::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-normal) var(--ease-smooth);
+    }
+
+    .card-interactive:hover::before {
+      transform: scaleX(1);
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
     h2 {
-      font-size: 16px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 6px;
-      margin-top: 24px
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px solid var(--border);
+      position: relative;
+    }
+
+    h2::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: var(--gradient-accent);
     }
 
     h3 {
-      font-size: 14px;
-      margin: 12px 0 2px 0
+      font-size: var(--font-lg);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
     }
 
+    p {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .text-meta {
+      font-size: var(--font-sm);
+      color: var(--text-tertiary);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    /* ============================================
+       LISTS
+       ============================================ */
     ul {
-      margin: 6px 0 0 18px
+      list-style: none;
+      padding: 0;
     }
 
-    li {
-      margin: 4px 0
+    .list-styled li {
+      position: relative;
+      padding-left: var(--space-5);
+      margin-bottom: var(--space-3);
+      color: var(--text-secondary);
     }
 
+    .list-styled li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       TAGS & BADGES
+       ============================================ */
     .tag {
       display: inline-block;
-      border: 1px solid var(--line);
-      padding: 2px 8px;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--font-xs);
+      font-weight: 500;
       border-radius: 999px;
-      font-size: 12px;
-      margin: 2px 6px 0 0
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      color: var(--text-secondary);
+      margin: var(--space-1) var(--space-2) var(--space-1) 0;
+      transition: all var(--duration-fast) var(--ease-smooth);
+      cursor: pointer;
     }
 
-    .tiny {
-      font-size: 12px;
-      color: var(--muted)
+    .tag:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: scale(1.05);
     }
 
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    /* ============================================
+       SECTIONS
+       ============================================ */
+    .section {
+      margin-bottom: var(--space-8);
+    }
+
+    .scope-summary {
+      view-transition-name: summary-card;
+    }
+
+    .scope-summary .card {
+      background: var(--gradient-accent);
+      color: white;
+    }
+
+    .scope-summary .card p {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: var(--font-lg);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Experience Section */
+    .scope-experience .experience-item {
+      view-transition-name: auto;
+      margin-bottom: var(--space-6);
+    }
+
+    /* Projects Grid */
+    .scope-projects {
+      view-transition-name: projects-section;
+    }
+
+    .projects-grid {
+      display: grid;
+      gap: var(--space-5);
+      margin-top: var(--space-6);
+    }
+
+    .project-card {
+      view-transition-name: auto;
+    }
+
+    /* Sidebar */
+    .scope-sidebar {
+      view-transition-name: sidebar-section;
+    }
+
+    @media (min-width: 768px) {
+      .scope-sidebar {
+        position: sticky;
+        top: var(--space-6);
+        height: fit-content;
+      }
+    }
+
+    .sidebar-section {
+      margin-bottom: var(--space-8);
+    }
+
+    /* ============================================
+       EXPANDABLE SECTIONS
+       ============================================ */
+    .expandable {
+      position: relative;
+    }
+
+    .expandable-toggle {
+      position: absolute;
+      top: var(--space-6);
+      right: var(--space-6);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-smooth);
+    }
+
+    .expandable-toggle:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .expandable-toggle svg {
+      width: 1rem;
+      height: 1rem;
+      stroke: var(--text-secondary);
+      transition: transform var(--duration-normal) var(--ease-smooth);
+    }
+
+    .expandable-toggle:hover svg {
+      stroke: white;
+    }
+
+    .expandable.expanded .expandable-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .expandable-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--duration-slow) var(--ease-smooth);
+    }
+
+    .expandable.expanded .expandable-content {
+      max-height: 1000px;
+    }
+
+    /* ============================================
+       PRINT STYLES
+       ============================================ */
     @media print {
       .no-print {
-        display: none
+        display: none !important;
       }
 
       body {
-        margin: 0
+        background: white;
+        color: black;
       }
 
       .page {
-        padding: 24px
+        max-width: 100%;
+        padding: 1rem;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        background: white;
+        page-break-inside: avoid;
+      }
+
+      .btn {
+        display: none;
+      }
+
+      h2::before {
+        background: #333;
       }
     }
-  </style>
-  <script>
-    // Auto-open print dialog if '?print' is present
-    document.addEventListener('DOMContentLoaded', () => { if (location.search.includes('print')) window.print(); });
-    // Theme toggle API (shared with index.html via localStorage)
-    function setTheme(mode) {
-      var isDark = mode === 'dark';
-      document.documentElement.classList.toggle('dark', isDark);
-      try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { }
-      var btn = document.getElementById('themeToggle');
-      if (btn) btn.textContent = isDark ? 'Day Mode' : 'Night Mode';
+
+    /* ============================================
+       ACCESSIBILITY & REDUCED MOTION
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
-    function toggleTheme() { setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'); }
-  </script>
+
+    /* Focus visible for keyboard navigation */
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* ============================================
+       UTILITY CLASSES
+       ============================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .flex-between {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .separator {
+      color: var(--text-tertiary);
+    }
+  </style>
 </head>
 
 <body>
   <div class="page">
-    <header class="no-break" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <h1>Rizky Sulaeman</h1>
-      <div style="display:flex;align-items:center;gap:12px">
-        <p class="tiny">Indramayu, West Java, Indonesia · <a
-            href="mailto:riskisuleman76@gmail.com">riskisuleman76@gmail.com</a></p>
-        <button id="themeToggle" class="no-print" onclick="toggleTheme()"
-          style="border:1px solid var(--line);padding:6px 10px;border-radius:8px;background:transparent;color:var(--ink);cursor:pointer">Night
-          Mode</button>
+    <!-- HEADER -->
+    <header class="scope-header">
+      <div class="header-info">
+        <h1>Rizky Sulaeman</h1>
+        <div class="header-contact">
+          <span>📍 Indramayu, West Java, Indonesia</span>
+          <span class="separator">·</span>
+          <a href="mailto:riskisuleman76@gmail.com">✉️ riskisuleman76@gmail.com</a>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="btn no-print" aria-label="Toggle theme">
+          <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <span>Dark Mode</span>
+        </button>
       </div>
     </header>
 
-    <section>
-      <h2>Summary</h2>
-      <p>Full Stack Software Engineer with experience across web, mobile, and AI projects. Strong foundation in software
-        engineering (D4) and hands‑on practice with Laravel, Django, React Native, and Python/NLP.</p>
-    </section>
+    <br />
 
-    <section class="grid">
-      <div>
-        <h2>Experience</h2>
-        <article>
-          <h3>PT Cybers Blitz Nusantara — Full Stack Software Engineer</h3>
-          <p class="tiny">July 2024 – December 2024 · Bandung, Indonesia</p>
-          <ul>
-            <li>Built web app for income assessment calculations using Python, Django, jQuery, Bootstrap, and
-              PostgreSQL.</li>
-            <li>Implemented efficient computing solutions to manage large data volumes.</li>
-            <li>Delivered Smart Link System improvements and received company appreciation.</li>
-          </ul>
-        </article>
-
-        <h2>Projects (Selected)</h2>
-        <article>
-          <h3>E‑Learning SMK Telematika Indramayu</h3>
-          <p class="tiny">PHP, MySQL, Laravel — 2022</p>
-          <ul>
-            <li>Interactive modules, quizzes, exams; digital attendance with real‑time parent notifications.</li>
-            <li>Teacher dashboard for class management, grading, and feedback.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Sistem Pakar — Politeknik Negeri Indramayu</h3>
-          <p class="tiny">PHP, Python, Laravel, VueJS, React Native — 2022</p>
-          <ul>
-            <li>Designed and trained diagnostic model in Python; integrated with Laravel backend and VueJS/React Native
-              frontends.</li>
-            <li>Intuitive UI/UX across web and mobile.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Delivery Expedition — PT Dwi Dharma Djaya</h3>
-          <p class="tiny">PHP, Python, MySQL, Laravel, React Native, Midtrans — 2023</p>
-          <ul>
-            <li>Optimized coal delivery routes; reduced travel time and cost.</li>
-            <li>Vehicle recommendations based on cargo weight; automated payments with Midtrans.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Smart Link System — PT Cybers Blitz Nusantara</h3>
-          <p class="tiny">Python, PostgreSQL, Django, jQuery, Docker, Kubernetes — 2024</p>
-          <ul>
-            <li>Financial reporting integrated with Smart Routing System; deployed with Docker & Kubernetes.</li>
-            <li>Ensured high availability and secure remote access.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Multi‑Agent System with MCP Context</h3>
-          <p class="tiny">Python, Flask, jQuery, NodeJS, LangChain — 2025</p>
-          <ul>
-            <li>Designed multi‑agent architecture; fine‑tuned 8 LLM agents (Gemma 3, Llama) using reinforcement
-              learning.</li>
-            <li>Voice and text‑based interaction system enabling autonomous collaboration.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>CV Screening for Recruitment Efficiency</h3>
-          <p class="tiny">Python, Laravel — 2025</p>
-          <ul>
-            <li>NLP model to extract key info and match qualifications to job requirements.</li>
-            <li>Upload feature and analysis dashboard to aid HR decisions.</li>
-          </ul>
-        </article>
-        <article>
-          <h3>Sentiment Analysis of Leadership Performance — Prabowo Subianto</h3>
-          <p class="tiny">PHP, Python, Laravel</p>
-          <ul>
-            <li>Web scraping for public data; NLP classifier for sentiment (positive/neutral/negative).</li>
-            <li>Interactive dashboard with charts and insights.</li>
-          </ul>
-        </article>
+    <!-- SUMMARY -->
+    <section class="section scope-summary">
+      <div class="card">
+        <p>
+          Full Stack Software Engineer with experience across web, mobile, and AI projects.
+          Strong foundation in software engineering (D4) and hands-on practice with Laravel,
+          Django, React Native, and Python/NLP.
+        </p>
       </div>
-      <aside>
-        <h2>Education</h2>
-        <p><strong>Politeknik Negeri Indramayu</strong></p>
-        <p class="tiny">D4 Rekayasa Perangkat Lunak — GPA 3.58</p>
-        <p class="tiny">2021–2025 · Indramayu, Indonesia</p>
+    </section>
 
-        <h2>Skills</h2>
-        <p class="tiny">Coursework</p>
-        <div>
-          <span class="tag">Data Structures & Algorithms</span>
-          <span class="tag">Operating Systems</span>
-          <span class="tag">Network Security</span>
-          <span class="tag">Artificial Intelligence</span>
-          <span class="tag">Android Development</span>
-          <span class="tag">DBMS</span>
-          <span class="tag">Web Development</span>
-        </div>
-        <p class="tiny" style="margin-top:8px">Languages</p>
-        <div>
-          <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span
-            class="tag">C++</span><span class="tag">Java</span><span class="tag">Golang</span><span
-            class="tag">Kotlin</span>
-        </div>
-        <p class="tiny" style="margin-top:8px">Developer Tools</p>
-        <div>
-          <span class="tag">Visual Studio Code</span><span class="tag">OpenAI Codex</span><span class="tag">Open Manus</span><span
-            class="tag">Antigravity</span><span class="tag">Cursor</span><span class="tag">Windsurf</span><span
-            class="tag">VS 2019</span><span class="tag">Android Studio</span><span class="tag">Intellij Idea Ultimate</span><span
-            class="tag">Claude Code</span>
-        </div>
-        <p class="tiny" style="margin-top:8px">Technologies/Frameworks</p>
-        <div>
-          <span class="tag">NestJS</span><span class="tag">Next.js</span><span class="tag">Vue.js</span><span
-            class="tag">Express.js</span><span class="tag">React Native</span><span class="tag">Expo</span><span
-            class="tag">Flutter</span><span class="tag">Laravel</span><span class="tag">Django</span>
-        </div>
+    <!-- MAIN GRID -->
+    <div class="grid-main">
+      <!-- LEFT COLUMN: Experience & Projects -->
+      <div>
+        <!-- EXPERIENCE -->
+        <section class="section scope-experience">
+          <h2>Experience</h2>
 
-        <h2>Certifications</h2>
-        <ul>
-          <li>Web Services Cloud Practitioner — Amazon Web Services (AWS)</li>
-          <li>Project Management Associate — Dicoding</li>
-          <li>SOLID Programming Principle — Dicoding</li>
-          <li>Programming Using HTML and CSS — CodePolitan</li>
-          <li>Programming Using JavaScript — CodePolitan</li>
-          <li>Programming Using Python — CodePolitan</li>
-        </ul>
+          <article class="card card-interactive experience-item">
+            <h3>Full Stack Software Engineer</h3>
+            <p class="text-meta">
+              <strong>PT Cybers Blitz Nusantara</strong>
+              <span class="separator">·</span>
+              <span>July 2024 – December 2024</span>
+              <span class="separator">·</span>
+              <span>Bandung, Indonesia</span>
+            </p>
+            <ul class="list-styled">
+              <li>Built web app for income assessment calculations using Python, Django, jQuery, Bootstrap, and
+                PostgreSQL</li>
+              <li>Implemented efficient computing solutions to manage large data volumes</li>
+              <li>Delivered Smart Link System improvements and received company appreciation</li>
+            </ul>
+          </article>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="section scope-projects">
+          <h2>Projects (Selected)</h2>
+
+          <div class="projects-grid">
+            <article class="card card-interactive project-card">
+              <h3>E-Learning SMK Telematika Indramayu</h3>
+              <p class="text-meta">
+                <span>2022</span>
+                <span class="separator">·</span>
+                <span>PHP, MySQL, Laravel</span>
+              </p>
+              <ul class="list-styled">
+                <li>Interactive modules, quizzes, exams; digital attendance with real-time parent notifications</li>
+                <li>Teacher dashboard for class management, grading, and feedback</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>Sistem Pakar — Politeknik Negeri Indramayu</h3>
+              <p class="text-meta">
+                <span>2022</span>
+                <span class="separator">·</span>
+                <span>PHP, Python, Laravel, VueJS, React Native</span>
+              </p>
+              <ul class="list-styled">
+                <li>Designed and trained diagnostic model in Python; integrated with Laravel backend and VueJS/React
+                  Native frontends</li>
+                <li>Intuitive UI/UX across web and mobile</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>Delivery Expedition — PT Dwi Dharma Djaya</h3>
+              <p class="text-meta">
+                <span>2023</span>
+                <span class="separator">·</span>
+                <span>PHP, Python, MySQL, Laravel, React Native, Midtrans</span>
+              </p>
+              <ul class="list-styled">
+                <li>Optimized coal delivery routes; reduced travel time and cost</li>
+                <li>Vehicle recommendations based on cargo weight; automated payments with Midtrans</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>Smart Link System — PT Cybers Blitz Nusantara</h3>
+              <p class="text-meta">
+                <span>2024</span>
+                <span class="separator">·</span>
+                <span>Python, PostgreSQL, Django, jQuery, Docker, Kubernetes</span>
+              </p>
+              <ul class="list-styled">
+                <li>Financial reporting integrated with Smart Routing System; deployed with Docker & Kubernetes</li>
+                <li>Ensured high availability and secure remote access</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>Multi-Agent System with MCP Context</h3>
+              <p class="text-meta">
+                <span>2025</span>
+                <span class="separator">·</span>
+                <span>Python, Flask, jQuery, NodeJS, LangChain</span>
+              </p>
+              <ul class="list-styled">
+                <li>Designed multi-agent architecture; fine-tuned 8 LLM agents (Gemma 3, Llama) using reinforcement
+                  learning</li>
+                <li>Voice and text-based interaction system enabling autonomous collaboration</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>CV Screening for Recruitment Efficiency</h3>
+              <p class="text-meta">
+                <span>2025</span>
+                <span class="separator">·</span>
+                <span>Python, Laravel</span>
+              </p>
+              <ul class="list-styled">
+                <li>NLP model to extract key info and match qualifications to job requirements</li>
+                <li>Upload feature and analysis dashboard to aid HR decisions</li>
+              </ul>
+            </article>
+
+            <article class="card card-interactive project-card">
+              <h3>Sentiment Analysis of Leadership Performance — Prabowo Subianto</h3>
+              <p class="text-meta">
+                <span>PHP, Python, Laravel</span>
+              </p>
+              <ul class="list-styled">
+                <li>Web scraping for public data; NLP classifier for sentiment (positive/neutral/negative)</li>
+                <li>Interactive dashboard with charts and insights</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <!-- EXTRACURRICULAR -->
+        <section class="section scope-extracurricular">
+          <h2>Extracurricular</h2>
+
+          <article class="card">
+            <h3>Head of Multimedia Division — KOTAK PENA</h3>
+            <p class="text-meta">
+              <span>2022–2023</span>
+              <span class="separator">·</span>
+              <span>Politeknik Negeri Indramayu</span>
+            </p>
+            <ul class="list-styled">
+              <li>Ensured professional editing for images, photos, and videos across the division</li>
+              <li>Maintained team readiness and participated actively in editing processes</li>
+              <li>Coordinated design needs from all divisions</li>
+            </ul>
+          </article>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN: Education, Skills, Certifications -->
+      <aside class="scope-sidebar">
+        <!-- EDUCATION -->
+        <section class="sidebar-section">
+          <div class="card">
+            <h2>Education</h2>
+            <h3>Politeknik Negeri Indramayu</h3>
+            <p class="text-meta">
+              <span>D4 Rekayasa Perangkat Lunak</span>
+              <br>
+              <span>GPA 3.58</span>
+              <span class="separator">·</span>
+              <span>2021–2025</span>
+            </p>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="sidebar-section">
+          <div class="card">
+            <h2>Skills</h2>
+
+            <h3 style="font-size: var(--font-sm); margin-top: var(--space-5);">Coursework</h3>
+            <div class="tags-container">
+              <span class="tag">Data Structures & Algorithms</span>
+              <span class="tag">Operating Systems</span>
+              <span class="tag">Network Security</span>
+              <span class="tag">Artificial Intelligence</span>
+              <span class="tag">Android Development</span>
+              <span class="tag">DBMS</span>
+              <span class="tag">Web Development</span>
+            </div>
+
+            <h3 style="font-size: var(--font-sm); margin-top: var(--space-5);">Languages</h3>
+            <div class="tags-container">
+              <span class="tag">Python</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">PHP</span>
+              <span class="tag">C++</span>
+              <span class="tag">Java</span>
+              <span class="tag">Golang</span>
+              <span class="tag">Kotlin</span>
+            </div>
+
+            <h3 style="font-size: var(--font-sm); margin-top: var(--space-5);">Developer Tools</h3>
+            <div class="tags-container">
+              <span class="tag">VS Code</span>
+              <span class="tag">OpenAI Codex</span>
+              <span class="tag">Open Manus</span>
+              <span class="tag">Antigravity</span>
+              <span class="tag">Cursor</span>
+              <span class="tag">Windsurf</span>
+              <span class="tag">VS 2019</span>
+              <span class="tag">Android Studio</span>
+              <span class="tag">IntelliJ IDEA</span>
+              <span class="tag">Claude Code</span>
+            </div>
+
+            <h3 style="font-size: var(--font-sm); margin-top: var(--space-5);">Technologies/Frameworks</h3>
+            <div class="tags-container">
+              <span class="tag">NestJS</span>
+              <span class="tag">Next.js</span>
+              <span class="tag">Vue.js</span>
+              <span class="tag">Express.js</span>
+              <span class="tag">React Native</span>
+              <span class="tag">Expo</span>
+              <span class="tag">Flutter</span>
+              <span class="tag">Laravel</span>
+              <span class="tag">Django</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CERTIFICATIONS -->
+        <section class="sidebar-section">
+          <div class="card">
+            <h2>Certifications</h2>
+            <ul class="list-styled">
+              <li>Web Services Cloud Practitioner — AWS</li>
+              <li>Project Management Associate — Dicoding</li>
+              <li>SOLID Programming Principle — Dicoding</li>
+              <li>Programming Using HTML and CSS — CodePolitan</li>
+              <li>Programming Using JavaScript — CodePolitan</li>
+              <li>Programming Using Python — CodePolitan</li>
+            </ul>
+          </div>
+        </section>
       </aside>
-    </section>
+    </div>
 
-    <section>
-      <h2>Extracurricular</h2>
-      <article>
-        <h3>KOTAK PENA — Head of Multimedia Division</h3>
-        <p class="tiny">2022–2023 · Politeknik Negeri Indramayu</p>
-        <ul>
-          <li>Ensured professional editing for images, photos, and videos across the division.</li>
-          <li>Maintained team readiness and participated actively in editing processes.</li>
-          <li>Coordinated design needs from all divisions.</li>
-        </ul>
-      </article>
-    </section>
-
-    <div class="no-print" style="margin-top:24px; display:flex; gap:12px">
-      <a href="assets/resume.pdf" target="_blank"
-        style="border:1px solid var(--line); padding:8px 12px; border-radius:8px; text-decoration:none">Open PDF</a>
-      <a href="index.html#resume"
-        style="border:1px solid var(--line); padding:8px 12px; border-radius:8px; text-decoration:none">Back to site</a>
+    <!-- FOOTER ACTIONS -->
+    <div class="no-print" style="margin-top: var(--space-8); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+      <a href="assets/resume.pdf" target="_blank" class="btn">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        <span>Open PDF</span>
+      </a>
+      <a href="index.html#resume" class="btn">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Back to Site</span>
+      </a>
+      <button onclick="window.print()" class="btn">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+        <span>Print Resume</span>
+      </button>
     </div>
   </div>
+
   <script>
-    // Initialize toggle label on load
+    // ============================================
+    // THEME MANAGEMENT WITH VIEW TRANSITIONS
+    // ============================================
+
+    // Apply theme immediately to prevent FOUC
     (function () {
-      var isDark = document.documentElement.classList.contains('dark');
-      var btn = document.getElementById('themeToggle');
-      if (btn) btn.textContent = isDark ? 'Day Mode' : 'Night Mode';
+      try {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { }
     })();
+
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function updateThemeButton(isDark) {
+      const icon = themeToggle.querySelector('svg path');
+      const text = themeToggle.querySelector('span');
+
+      if (isDark) {
+        text.textContent = 'Light Mode';
+        icon.setAttribute('d', 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z');
+      } else {
+        text.textContent = 'Dark Mode';
+        icon.setAttribute('d', 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z');
+      }
+    }
+
+    async function toggleTheme() {
+      const isDark = html.classList.contains('dark');
+
+      // Check if View Transitions API is supported
+      if (!document.startViewTransition) {
+        // Fallback for unsupported browsers
+        html.classList.toggle('dark');
+        updateThemeButton(!isDark);
+        try {
+          localStorage.setItem('theme', !isDark ? 'dark' : 'light');
+        } catch (e) { }
+        return;
+      }
+
+      // Use View Transitions API for smooth theme change
+      const transition = document.startViewTransition(() => {
+        html.classList.toggle('dark');
+        updateThemeButton(!isDark);
+      });
+
+      try {
+        await transition.finished;
+        localStorage.setItem('theme', !isDark ? 'dark' : 'light');
+      } catch (e) { }
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // Initialize button state
+    updateThemeButton(html.classList.contains('dark'));
+
+    // ============================================
+    // AUTO-PRINT IF ?print IN URL
+    // ============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      if (location.search.includes('print')) {
+        window.print();
+      }
+    });
+
+    // ============================================
+    // CARD INTERACTIONS WITH VIEW TRANSITIONS
+    // ============================================
+    document.querySelectorAll('.card-interactive').forEach(card => {
+      card.addEventListener('click', function (e) {
+        // Only apply subtle scale effect on click
+        if ('startViewTransition' in document) {
+          document.startViewTransition(() => {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+              this.style.transform = '';
+            }, 150);
+          });
+        }
+      });
+    });
+
+    // ============================================
+    // SMOOTH SCROLL FOR ANCHOR LINKS
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ============================================
+    // CONSOLE MESSAGE
+    // ============================================
+    console.log('%c✨ Resume with View Transitions API', 'color: #3b82f6; font-size: 16px; font-weight: bold;');
+    console.log('%cBuilt with modern web standards and best practices', 'color: #64748b; font-size: 12px;');
+
+    // Feature detection logging
+    if ('startViewTransition' in document) {
+      console.log('%c✓ View Transitions API supported', 'color: #10b981;');
+    } else {
+      console.log('%c✗ View Transitions API not supported (using fallback)', 'color: #f59e0b;');
+    }
   </script>
 </body>
 
